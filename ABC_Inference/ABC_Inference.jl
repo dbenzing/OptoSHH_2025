@@ -2,25 +2,15 @@ ENV["PYTHON"]=""; import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()
 using GpABC, OrdinaryDiffEq, Distances, Distributions, Plots, StatsBase, Printf, DelimitedFiles
 pyplot()
 
-# Define your parameters and initial settings
+# Define your parameters and priors
 true_params =  [0.0, 0.0, 0.35, 1.5, 0.5, 0.0, 10.0, 1] # nominal parameter values
-
-#old priors 
-#priors = [Uniform(0.1, 5.), Uniform(0.1, 2.), Uniform(0.1, 3.),
-#          Uniform(1., 3.), Uniform(0.1, 2.), Uniform(0.1, 10.),
-#          Uniform(0.01, 10.), Uniform(0.1, 4.)]
-
-#new priors - some old parameters tend towards the bounds for hill coefficient and K(Hill)
-#priors = [Uniform(0.1, 5.), Uniform(0.1, 2.), Uniform(-1., 1.),
-#          Uniform(0., 1.), Uniform(0., 1.), Uniform(-3., 1.),
-#          Uniform(-2., 1.), Uniform(-1.,1.)]
 
 priors = [Uniform(0.01, 5.), Uniform(0.1, 2.), Uniform(log10(0.1), log10(3.)),
           Uniform(log10(1.), log10(3.)), Uniform(log10(0.1), log10(5.)), Uniform(log10(0.1), log10(10.)),
           Uniform(log10(0.1), log10(10.)), Uniform(log10(0.1),log10(10.))]
 
 
-param_indices = [3,4,5,7,8]  #indices of the parameters we want to estimate
+param_indices = [3,4,5,7,8]  #indices of the parameters to be estimated
 priors = priors[param_indices]
 
 # ODE solver settings
